@@ -21,7 +21,7 @@ namespace Demo
 
             Toast.MakeText(this, "Alarms active!", ToastLength.Long).Show();
 
-            Finish();
+            //Finish();
         }
     }
 }

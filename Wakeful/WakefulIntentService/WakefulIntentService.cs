@@ -17,8 +17,9 @@ namespace WakefulIntentService
     abstract public class WakefulIntentService : IntentService
     {
         abstract protected void DoWakefulWork(Intent intent);
-        public static string NAME = "com.jondouglas.wakeful.WakefulIntentService";
+        public static string NAME = "com.intellidrive.wakeful.WakefulIntentService";
         public static string LAST_ALARM = "lastAlarm";
+        public static string TAG = "WakefulIntentService";
         private static volatile PowerManager.WakeLock lockStatic = null;
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -26,7 +27,7 @@ namespace WakefulIntentService
         {
             if (lockStatic == null)
             {
-                PowerManager manager = (PowerManager) context.GetSystemService(Context.PowerService);
+                PowerManager manager = (PowerManager)context.GetSystemService(Context.PowerService);
 
                 lockStatic = manager.NewWakeLock(WakeLockFlags.Partial, NAME);
                 lockStatic.SetReferenceCounted(true);
@@ -52,6 +53,7 @@ namespace WakefulIntentService
 
         public static void ScheduleAlarms(IAlarmListener alarmListener, Context context, bool force)
         {
+            Log.Info(TAG, "Scheduling Alarm");
             ISharedPreferences preferences = context.GetSharedPreferences(NAME, 0);
             long lastAlarm = preferences.GetLong(LAST_ALARM, 0);
 
@@ -59,17 +61,24 @@ namespace WakefulIntentService
                 (DateTime.Now.Millisecond > lastAlarm &&
                  DateTime.Now.Millisecond - lastAlarm > alarmListener.GetMaxAge()))
             {
-                AlarmManager manager = (AlarmManager) context.GetSystemService(Context.AlarmService);
-                Intent intent = new Intent(context, typeof(AlarmReceiver));
+                Log.Info(TAG, "OK - Passed Checks, Setting Manager Intents and Pending Intents");
+                AlarmManager manager = (AlarmManager)context.GetSystemService(Context.AlarmService);
+                Log.Debug(TAG, $"Manager: {manager.ToString()}");
+                //Intent intent = new Intent(context, typeof(AlarmReceiver));
+                Intent intent = new Intent("com.intellidrive.wakeful.ALARM_TRIG");
+                Log.Debug(TAG, $"Intent: {intent.ToString()}");
                 PendingIntent pendingIntent = PendingIntent.GetBroadcast(context, 0, intent, 0);
+                Log.Debug(TAG, $"Pending Intent: {pendingIntent.ToString()}");
                 alarmListener.ScheduleAlarms(manager, pendingIntent, context);
+                Log.Info(TAG, "Scheduled Alarm..");
+                Log.Debug(TAG, $"Manager: {manager.ToString()}");
             }
         }
 
         public static void CancelAlarms(Context context)
         {
-            AlarmManager manager = (AlarmManager) context.GetSystemService(Context.AlarmService);
-            Intent intent = new Intent(context, typeof (AlarmReceiver));
+            AlarmManager manager = (AlarmManager)context.GetSystemService(Context.AlarmService);
+            Intent intent = new Intent(context, typeof(AlarmReceiver));
             PendingIntent pendingIntent = PendingIntent.GetBroadcast(context, 0, intent, 0);
             manager.Cancel(pendingIntent);
             context.GetSharedPreferences(NAME, 0).Edit().Remove(LAST_ALARM).Commit();
@@ -88,8 +97,9 @@ namespace WakefulIntentService
             {
                 wakeLock.Acquire();
             }
-            return base.OnStartCommand(intent, flags, startId);
 
+
+            base.OnStartCommand(intent, flags, startId);
             return (StartCommandResult.RedeliverIntent);
         }
 

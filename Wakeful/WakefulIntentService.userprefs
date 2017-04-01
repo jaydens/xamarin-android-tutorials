@@ -1,0 +1,36 @@
+﻿<Properties StartupConfiguration="{63449097-80C1-45A9-9AE2-1AE3D787A40C}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Demo/DemoActivity.cs">
+    <Files>
+      <File FileName="Demo/DemoActivity.cs" Line="1" Column="1" />
+      <File FileName="Demo/AppListener.cs" Line="7" Column="23" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="WakefulIntentService" expanded="True">
+            <Node name="Demo" expanded="True">
+              <Node name="Resources" expanded="True">
+                <Node name="drawable" expanded="True" />
+                <Node name="layout" expanded="True" />
+                <Node name="values" expanded="True" />
+              </Node>
+            </Node>
+            <Node name="WakefulIntentService" expanded="True">
+              <Node name="References" expanded="True" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/Jayden/xamarin-android-tutorials/Wakeful/Demo/AppService.cs" relfile="Demo/AppService.cs" line="25" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.Demo AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.Nexus 5 (Lollipop)" />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.WakefulIntentService PreferredExecutionTarget="Android.Nexus 10 (KitKat)" />
+</Properties>
